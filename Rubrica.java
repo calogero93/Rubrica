@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 public class Rubrica  extends JFrame {
 
@@ -14,6 +15,8 @@ public class Rubrica  extends JFrame {
     private JTable tbRubrica;
     JToolBar toolBar;
     int index;
+    String nome;
+    String cognome;
 
     Rubrica(){
 
@@ -85,12 +88,18 @@ public class Rubrica  extends JFrame {
         buttonEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
-                Rubrica.this.setVisible(false);
-                PersonaForm personaForm = new PersonaForm("Edit", index);
-                personaForm.setVisible(true);
-                dispose();
-
+                if (!tbRubrica.getSelectionModel().isSelectionEmpty()){
+                    Rubrica.this.setVisible(false);
+                    PersonaForm personaForm = new PersonaForm("Edit", index);
+                    personaForm.setVisible(true);
+                    dispose();
+                }
+                else {
+                    JOptionPane.showMessageDialog(Rubrica.this,
+                            "Prima di eseguire una modifica devi selezionare una riga",
+                            "Rubrica",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 
@@ -100,9 +109,25 @@ public class Rubrica  extends JFrame {
         buttonDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                    RubricaDB rubricaDB = new RubricaDB();
-                    rubricaDB.deletePersonaDB(index, tbRubrica);
-                    model.removeRow(tbRubrica.getSelectedRow());
+                if (!tbRubrica.getSelectionModel().isSelectionEmpty()) {
+
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro di voler eliminare il contatto"+nome+" "+cognome+" ?", "WARNING",
+                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                        RubricaDB rubricaDB = new RubricaDB();
+                        rubricaDB.deletePersonaDB(index, tbRubrica);
+                        model.removeRow(tbRubrica.getSelectedRow());
+                    } else {
+
+                    }
+
+                }
+                else {
+                    JOptionPane.showMessageDialog(Rubrica.this,
+                            "Prima di eliminare un contatto devi selezionare una riga",
+                            "Rubrica",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
 
 
             }
@@ -116,6 +141,8 @@ public class Rubrica  extends JFrame {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                index = Integer.parseInt(tbRubrica.getValueAt(tbRubrica.getSelectedRow(), 0).toString());
+               nome = tbRubrica.getValueAt(tbRubrica.getSelectedRow(), 1).toString();
+               cognome = tbRubrica.getValueAt(tbRubrica.getSelectedRow(), 2).toString();
             }
 
 

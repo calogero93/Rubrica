@@ -31,7 +31,7 @@ public class ConnectionDB {
             File jarPath=new File(ConnectionDB.class.getProtectionDomain().getCodeSource().getLocation().getPath());
             String propertiesPath=jarPath.getParentFile().getAbsolutePath();
             System.out.println(" propertiesPath-"+propertiesPath);
-            p.load(new FileInputStream(propertiesPath+"/credenziali.properties"));
+            p.load(new FileInputStream(propertiesPath+ "/credenziali.properties"));
             //p.load(ConnectionDB.class.getResourceAsStream("./credenziali.properties"));
 
             connection = DriverManager

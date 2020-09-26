@@ -97,7 +97,7 @@ public class Login extends JFrame implements ActionListener {
                 LoginDB loginDB = new LoginDB();
                 if (loginDB.verificaUtente(getUsername(),getPassword())!=null){
                     JOptionPane.showMessageDialog(Login.this,
-                            "Hi " + getUsername() + "! You have successfully logged in.",
+                            "Ciao " + getUsername() + "! Hai eseguito il login con successo!",
                             "Login",
                             JOptionPane.INFORMATION_MESSAGE);
 
